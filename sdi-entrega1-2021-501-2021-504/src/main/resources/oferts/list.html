@@ -2,19 +2,18 @@
 <html lang="en">
 <head th:replace="fragments/head" />
 <body>
-	<!-- Barra de NavegaciÃ³n superior -->
+	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
 		<h2>Notas</h2>
 		<form class="navbar-form" action="/mark/list">
 			<div class="form-group">
 				<input name="searchText" type="text" class="form-control" size="50"
-					placeholder="Buscar por descripciÃ³n o nombre del alumno">
+					placeholder="Buscar por descripción o nombre del alumno">
 			</div>
 			<button type="submit" class="btn btn-default">Buscar</button>
 		</form>
-		<p>Las notas que actualmente figuran en el sistema son las
-			siguientes:</p>
+		<p th:text = "#offers.list.title"></p>
 		<button type="button" id="updateButton" class="btn btn-default">Actualizar</button>
 		<script th:inline="javascript">
  /*<![CDATA[*/
@@ -29,8 +28,7 @@
  /*]]>*/
  </script>
 
-		<table th:replace="fragments/tableMarks" id="tableMarks"></table>
-		<footer th:replace="fragments/pagination" />
+		<table th:replace="fragments/ownOffersList" id="ownOffersList"></table>
 	</div>
 	<footer th:replace="fragments/footer" />
 </body>

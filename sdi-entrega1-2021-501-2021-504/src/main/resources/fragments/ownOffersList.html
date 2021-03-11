@@ -1,0 +1,23 @@
+<table class="table table-hover" th:fragment="ownOffersList"
+	id="ownOffersList">
+	<thead>
+		<tr>
+			<th class="col-md-1"></th>
+			<th th:text="#{offers.description}">Descripción</th>
+			<th th:text="#{offers.details}">Detalle</th>
+			<th class="col-md-1"></th>
+			<th th:text="#{offers.price}">Precio</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="offer : ${offerList}">
+			<td></td>
+			<td th:text="${offer.description}">Ejercicio 1</td>
+			<td th:text="${offer.detail}"></td>
+			<td ></td>
+			<td th:text="${offer.price}"></td>
+            <td><a sec:authorize="hasRole('ROLE_PROFESSOR')"
+				th:href="${'/mark/delete/' + mark.id}">eliminar</a></td>
+		</tr>
+	</tbody>
+</table>
