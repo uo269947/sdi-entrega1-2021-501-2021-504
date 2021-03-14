@@ -47,9 +47,7 @@ public class OfferController {
 		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
 		offer.setUser(user);
 		offersService.addOffer(offer);
-		for(Offer o: offersService.findAll()) {
-			System.out.println(o);
-		}
+		
 		return "offer/add";
 	}
 }
