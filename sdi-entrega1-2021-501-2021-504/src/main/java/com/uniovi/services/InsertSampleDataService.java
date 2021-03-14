@@ -12,11 +12,20 @@ public class InsertSampleDataService {
 	@Autowired
 	private UsersService usersService;
 
+	@Autowired
+	private RolesService rolesService;
+	
 	@PostConstruct
 	public void init() {
 		User user1 = new User("example@uniovi.es", "Pedro", "Díaz");
 		user1.setPassword("123456");
-
+		user1.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user1);
+		
+		User admin = new User("admin@email.es", "admin", "admin");
+		admin.setPassword("admin");
+		admin.setRole(rolesService.getRoles()[1]);
+		usersService.addUser(admin);
+	
 	}
 }
