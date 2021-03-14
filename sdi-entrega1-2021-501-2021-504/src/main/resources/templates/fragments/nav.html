@@ -10,7 +10,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
-				<li><a href="/home" th:text="#{nav.list}"></a></li>
+				<li  sec:authorize="hasRole('ROLE_ADMIN')"><a href="/user/list" th:text="#{nav.list}"></a></li>
 				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#" th:text="#{nav.mine}"> <span
 						class="caret"></span>
