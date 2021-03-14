@@ -14,4 +14,9 @@ public interface UsersRepository extends CrudRepository<User, Long> {
 	@Query("SELECT r FROM User r WHERE r.name = ?1 OR r.lastName = ?1")
 	List<User> findByNameOrSurname(String text);
 	
+	@Query("select r from User r where r.role = 'ROLE_USER'")
+	List<User> findNormalUsers();
+
+	void removeByEmail(String email);
+	
 }

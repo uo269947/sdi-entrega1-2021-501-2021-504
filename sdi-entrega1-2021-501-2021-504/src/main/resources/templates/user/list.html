@@ -17,16 +17,23 @@
 						<th>Email</th>
 						<th>Nombre</th>
 						<th>Apellidos</th>
+						<th>Eliminar</th>
 					</tr>
 				</thead>
+				<form method="post" action="/user/delete" th:object="${userForm}">
 				<tbody>
 					<tr th:each="user : ${usersList}">
 						<td th:text="${user.email}">71888888X</td>
 						<td th:text="${user.name}">Nombre del alumno</td>
 						<td th:text="${user.lastName}">Apellidos del alumno</td>
+						<td><input type="checkbox"  th:name="idChecked" th:value="${user.id}" ></td>
+						
+						
 					</tr>
 				</tbody>
 			</table>
+			 <button type="submit">Eliminar</button>
+			</form>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer" />

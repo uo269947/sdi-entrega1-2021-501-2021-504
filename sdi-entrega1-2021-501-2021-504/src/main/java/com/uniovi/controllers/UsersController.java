@@ -1,5 +1,8 @@
 package com.uniovi.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import com.uniovi.entities.User;
 import com.uniovi.services.SecurityService;
@@ -33,7 +37,8 @@ public class UsersController {
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
-		model.addAttribute("usersList", usersService.getUsers());
+		model.addAttribute("usersList", usersService.getNormalUsers());
+		model.addAttribute("deletesUser", new ArrayList<User>());
 		return "user/list";
 	}
 
@@ -54,9 +59,13 @@ public class UsersController {
 		return "user/details";
 	}
 
-	@RequestMapping("/user/delete/{id}")
-	public String delete(@PathVariable Long id) {
-		usersService.deleteUser(id);
+	@RequestMapping(value="/user/delete", method = RequestMethod.POST)
+	public String delete(ServletWebRequest request) {
+		if(request.getParameterValues("idChecked") != null){
+	        for(String idCheckedStr : request.getParameterValues("idChecked")){
+	        	usersService.deleteUser(Long.valueOf(idCheckedStr));
+	            } 
+	    }
 		return "redirect:/user/list";
 	}
 

@@ -55,4 +55,12 @@ public class UsersService {
 		users = usersRepository.findByNameOrSurname(text);
 		return users;
 	}
+
+	public List<User> getNormalUsers() {
+		List<User> users = new ArrayList<User>();
+		usersRepository.findNormalUsers().forEach(users::add);
+		return users;
+	}
+
+	
 }
