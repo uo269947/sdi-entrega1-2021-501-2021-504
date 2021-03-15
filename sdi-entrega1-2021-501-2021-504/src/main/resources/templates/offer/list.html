@@ -5,29 +5,16 @@
 	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<h2>Notas</h2>
-		<form class="navbar-form" action="/mark/list">
+		<h2>Ofertas</h2>
+		<form class="navbar-form" action="/offer/list">
 			<div class="form-group">
 				<input name="searchText" type="text" class="form-control" size="50"
 					placeholder="Buscar por descripción o nombre del alumno">
 			</div>
 			<button type="submit" class="btn btn-default">Buscar</button>
 		</form>
-		<p th:text = "#offers.list.title"></p>
+		<p>Titulo</p>
 		<button type="button" id="updateButton" class="btn btn-default">Actualizar</button>
-		<script th:inline="javascript">
- /*<![CDATA[*/
- $( "#updateButton" ).click(function() {
- var numberPage = [[${param.page}]];
- var urlUpdate = '/mark/list/update';
- if (numberPage != null ){
- urlUpdate += "?page="+numberPage[0];
- }
- $("#tableMarks").load(urlUpdate);
- });
- /*]]>*/
- </script>
-
 		<table th:replace="fragments/ownOffersList" id="ownOffersList"></table>
 	</div>
 	<footer th:replace="fragments/footer" />

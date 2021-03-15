@@ -3,21 +3,19 @@
 	<thead>
 		<tr>
 			<th class="col-md-1"></th>
-			<th th:text="#{offers.description}">Descripci√≥n</th>
-			<th th:text="#{offers.details}">Detalle</th>
+			<th th:text="#{offers.title}">TÌtulo</th>
+			<th th:text="#{offers.add.description}">Descripcion</th>
 			<th class="col-md-1"></th>
-			<th th:text="#{offers.price}">Precio</th>
+			<th th:text="#{offers.add.price}">Precio</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr th:each="offer : ${offerList}">
 			<td></td>
-			<td th:text="${offer.description}">Ejercicio 1</td>
-			<td th:text="${offer.detail}"></td>
+			<td th:text="${offer.title}">Ejercicio 1</td>
+			<td th:text="${offer.description}"></td>
 			<td ></td>
 			<td th:text="${offer.price}"></td>
-            <td><a sec:authorize="hasRole('ROLE_PROFESSOR')"
-				th:href="${'/mark/delete/' + mark.id}">eliminar</a></td>
 		</tr>
 	</tbody>
 </table>

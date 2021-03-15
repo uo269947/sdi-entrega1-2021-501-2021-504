@@ -21,13 +21,33 @@ public class Offer {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	private String title;
-	
+
 	private String description;
-	
+
+	public long getId() {
+		return id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
 	private LocalDate date;
-	
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -45,13 +65,13 @@ public class Offer {
 	}
 
 	private double price;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	public Offer() {
-		
+
 	}
 
 	public Offer(long id, String title, String description, LocalDate date, double price, User user) {
@@ -63,7 +83,7 @@ public class Offer {
 		this.price = price;
 		this.user = user;
 	}
-	
+
 	public Offer(String title, String description, LocalDate date, double price, User user) {
 		super();
 		this.title = title;
@@ -74,17 +94,13 @@ public class Offer {
 	}
 
 	public void setDate(LocalDate date) {
-		this.date=date;
-		
+		this.date = date;
+
 	}
 
 	public void setUser(User user) {
-		this.user=user;
-		
+		this.user = user;
+
 	}
 
-
-	
-	
 }
-

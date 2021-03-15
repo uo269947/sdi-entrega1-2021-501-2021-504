@@ -1,15 +1,17 @@
 package com.uniovi.controllers;
 
+import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
@@ -35,19 +37,32 @@ public class OfferController {
 	}
 	
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
-	public String setMark( @ModelAttribute Offer offer) {
+	public String setMark(@ModelAttribute Offer offer) {
 		//validar
 		//if (result.hasErrors()) {
 		//	model.addAttribute("usersList", usersService.getUsers());
 			//return "/mark/add";
 		//}
 		offer.setDate(LocalDate.now());
-		
-	
 		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
 		offer.setUser(user);
 		offersService.addOffer(offer);
 		
-		return "offer/add";
+		return "redirect:/offer/list";
+	}
+	
+	@RequestMapping("/offer/list")
+	public String getListado(Model model, Principal principal, @RequestParam(value = "", required=false) String searchText) {
+		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
+		List<Offer> offers = new ArrayList<Offer>();
+		if (searchText != null && !searchText.isEmpty()) {
+			offers = offersService.getMyOffersBySearch(user, searchText);
+		}
+		else {
+			offers = offersService.getMyOffers(user);
+		}
+		model.addAttribute("offerList", offers);
+		model.addAttribute("deletesOffer", new ArrayList<Offer>());
+		return "offer/list";
 	}
 }

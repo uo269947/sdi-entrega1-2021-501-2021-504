@@ -14,12 +14,13 @@ import org.springframework.stereotype.Service;;
 public class SecurityService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
 	@Autowired
 	private UserDetailsService userDetailsService;
 	private static final Logger logger = LoggerFactory.getLogger(SecurityService.class);
 
 	public String findLoggedInEmail() {
-		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (userDetails instanceof UserDetails) {
 			return ((UserDetails) userDetails).getUsername();
 		}
