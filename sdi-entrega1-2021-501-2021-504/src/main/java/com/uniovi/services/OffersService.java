@@ -33,11 +33,12 @@ public class OffersService {
 
 	public List<Offer> getMyOffersBySearch(User user, String searchText) {
 		List<Offer> offers = new ArrayList<Offer>();
+		searchText = "%"+searchText+"%";
 		offers = offersRepository.searchByDescriptionAndUser(searchText, user);
 		return offers;
 	}
 
-	
-	
-	
+	public void deleteOffer(Long id) {
+		offersRepository.deleteById(id);
+	}
 }

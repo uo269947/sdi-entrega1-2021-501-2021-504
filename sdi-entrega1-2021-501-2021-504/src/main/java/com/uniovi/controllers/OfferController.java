@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,5 +65,11 @@ public class OfferController {
 		model.addAttribute("offerList", offers);
 		model.addAttribute("deletesOffer", new ArrayList<Offer>());
 		return "offer/list";
+	}
+	
+	@RequestMapping("/offer/delete/{id}")
+	public String deleteOffer(@PathVariable Long id) {
+		offersService.deleteOffer(id);
+		return "redirect:/offer/list";
 	}
 }

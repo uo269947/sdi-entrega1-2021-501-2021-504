@@ -16,6 +16,7 @@
 			<td th:text="${offer.description}"></td>
 			<td ></td>
 			<td th:text="${offer.price}"></td>
+			<td><a th:href="${'/offer/delete/' + offer.id}"  th:text="#{offers.delete}">Eliminar</a></td>
 		</tr>
 	</tbody>
 </table>
