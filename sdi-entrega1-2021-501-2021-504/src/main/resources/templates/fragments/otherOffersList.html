@@ -1,0 +1,25 @@
+<table class="table table-hover" th:fragment="ownOffersList"
+	id="ownOffersList">
+	<thead>
+		<tr>
+			<th class="col-md-1"></th>
+			<th th:text="#{offers.title}">Título</th>
+			<th th:text="#{offers.add.description}">Descripcion</th>
+			<th class="col-md-1"></th>
+			<th th:text="#{offers.add.price}">Precio</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="offer : ${offerList}">
+			<td></td>
+			<td th:text="${offer.title}">Ejercicio 1</td>
+			<td th:text="${offer.description}"></td>
+			<td ></td>
+			<td th:text="${offer.price}"></td>
+			<td>
+				<a th:href="${'/offer/buy/' + offer.id}" th:if="${offer.buyer == null}" th:text="${offer.buy}">Comprar</a>
+    			<span th:unless="${offer.buyer == null}" th:text="${offer.sold}">Vendido</span>
+			</td>
+		</tr>
+	</tbody>
+</table>

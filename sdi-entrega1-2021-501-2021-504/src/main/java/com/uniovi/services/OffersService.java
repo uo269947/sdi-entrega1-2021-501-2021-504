@@ -41,4 +41,35 @@ public class OffersService {
 	public void deleteOffer(Long id) {
 		offersRepository.deleteById(id);
 	}
+
+	public List<Offer> getOtherOffers(User user) {
+		List<Offer> offers = new ArrayList<Offer>();
+		offersRepository.findOtherOffers(user).forEach(offers::add);
+		return offers;
+	}
+
+	public List<Offer> getOtherOffersBySearch(User user, String searchText) {
+		List<Offer> offers = new ArrayList<Offer>();
+		searchText = "%"+searchText+"%";
+		offers = offersRepository.searchOthersByDescriptionAndUser(searchText, user);
+		return offers;
+	}
+
+	public void buyOffer(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public List<Offer> getOffersBoughtBySearch(User user, String searchText) {
+		List<Offer> offers = new ArrayList<Offer>();
+		searchText = "%"+searchText+"%";
+		offers = offersRepository.searchBoughtByDescriptionAndUser(searchText, user);
+		return offers;
+	}
+	
+	public List<Offer> getOffersBought(User user) {
+		List<Offer> offers = new ArrayList<Offer>();
+		offersRepository.findBoughtOffers(user).forEach(offers::add);
+		return offers;
+	}
 }

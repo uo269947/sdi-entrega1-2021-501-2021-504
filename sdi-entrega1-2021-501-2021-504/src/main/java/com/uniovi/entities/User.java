@@ -16,7 +16,7 @@ public class User {
 	private String password;
 	@Transient // propiedad que no se almacena e la tabla.
 	private String passwordConfirm;
-	private double money;
+	private double saldo;
 	private String role;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

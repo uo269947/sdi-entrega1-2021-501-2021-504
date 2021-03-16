@@ -67,9 +67,45 @@ public class OfferController {
 		return "offer/list";
 	}
 	
+	@RequestMapping("/offer/buyList")
+	public String getListadoCompra(Model model, Principal principal, @RequestParam(value = "", required=false) String searchText) {
+		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
+		List<Offer> offers = new ArrayList<Offer>();
+		if (searchText != null && !searchText.isEmpty()) {
+			offers = offersService.getOtherOffersBySearch(user, searchText);
+		}
+		else {
+			offers = offersService.getOtherOffers(user);
+		}
+		model.addAttribute("offerList", offers);
+		model.addAttribute("deletesOffer", new ArrayList<Offer>());
+		return "offer/list";
+	}
+	
+	@RequestMapping("/offer/boughtList")
+	public String getListadoCompradas(Model model, Principal principal, @RequestParam(value = "", required=false) String searchText) {
+		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
+		List<Offer> offers = new ArrayList<Offer>();
+		if (searchText != null && !searchText.isEmpty()) {
+			offers = offersService.getOffersBoughtBySearch(user, searchText);
+		}
+		else {
+			offers = offersService.getOffersBought(user);
+		}
+		model.addAttribute("offerList", offers);
+		model.addAttribute("deletesOffer", new ArrayList<Offer>());
+		return "offer/list";
+	}
+	
 	@RequestMapping("/offer/delete/{id}")
 	public String deleteOffer(@PathVariable Long id) {
 		offersService.deleteOffer(id);
+		return "redirect:/offer/list";
+	}
+	
+	@RequestMapping("/offer/buy/{id}")
+	public String buyOffer(@PathVariable Long id) {
+		offersService.buyOffer(id);
 		return "redirect:/offer/list";
 	}
 }

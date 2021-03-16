@@ -69,6 +69,22 @@ public class Offer {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "buyer_id")
+	private User buyer;
+
+	public User getBuyer() {
+		return buyer;
+	}
+
+	public void setBuyer(User buyer) {
+		this.buyer = buyer;
+	}
+
+	public User getUser() {
+		return user;
+	}
 
 	public Offer() {
 
