@@ -16,7 +16,7 @@ public class User {
 	private String password;
 	@Transient // propiedad que no se almacena e la tabla.
 	private String passwordConfirm;
-	private double money;
+	private double saldo;
 	private String role;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -67,6 +67,10 @@ public class User {
 	public String getLastName() {
 		return lastName;
 	}
+	
+	public double getSaldo() {
+		return saldo;
+	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -90,6 +94,11 @@ public class User {
 
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
+	}
+
+	public void setSaldo(Double i) {
+		this.saldo=i;
+		
 	}
 
 }

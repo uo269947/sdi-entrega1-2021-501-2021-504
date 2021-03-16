@@ -3,6 +3,8 @@ package com.uniovi.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,7 +35,8 @@ public class UsersController {
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
 	
-
+	@Autowired
+	private HttpSession httpSession;
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
@@ -94,6 +97,7 @@ public class UsersController {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@Validated User user, BindingResult result) {
+		user.setSaldo(100.0);
 		signUpFormValidator.validate(user, result);
 		if (result.hasErrors()) {
 			return "signup";
@@ -105,6 +109,12 @@ public class UsersController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		httpSession.setAttribute("authUsser", activeUser);
+		
+		model.addAttribute("authUsser", activeUser);
 		return "login";
 	}
 
@@ -113,6 +123,8 @@ public class UsersController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
+		model.addAttribute("authUsser", activeUser);
 		return "home";
+		
 	}
 }

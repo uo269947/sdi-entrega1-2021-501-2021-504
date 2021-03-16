@@ -10,7 +10,8 @@
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
-				<li  sec:authorize="hasRole('ROLE_ADMIN')"><a href="/user/list" th:text="#{nav.list}"></a></li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/user/list"
+					th:text="#{nav.list}"></a></li>
 				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#" th:text="#{nav.mine}"> <span
 						class="caret"></span>
@@ -18,18 +19,19 @@
 					<ul class="dropdown-menu">
 						<li><a href="/offer/add" th:text="#{nav.mine.new}"></a></li>
 						<li><a href="/offer/list" th:text="#{nav.mine.list}"></a></li>
-					</ul>
-				</li>
+					</ul></li>
 				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#" th:text="#{nav.others}"> <span
 						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
 						<li><a href="/oferts/list" th:text="#{nav.others.list}"></a></li>
-					</ul>
-				</li>
+					</ul></li>
 			</ul>
+
 			<ul class="nav navbar-nav navbar-right">
+
+
 				<li class="dropdown"><a id="btnLanguage" href="
  #"
 					class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -45,7 +47,7 @@
 						<li><a id="btnSpanish" value="ES"> <img
 								th:src="@{/img/if_spain_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.es}">Espa�ol</span>
+								th:text="#{language.es}">Español</span>
 						</a></li>
 						<li><a id="btnSpanish" value="IT"> <img
 								th:src="@{/img/if_IT_flag.png}"
@@ -53,18 +55,34 @@
 								th:text="#{language.it}">Italiano</span>
 						</a></li>
 					</ul></li>
-				<li sec:authorize="!isAuthenticated()"><a href="/signup" th:text="#{nav.signup}"> <span
-						class="glyphicon glyphicon-user"></span> Registrate
+				<li sec:authorize="!isAuthenticated()"><a href="/signup"
+					th:text="#{nav.signup}"> <span class="glyphicon glyphicon-user"></span>
+						Registrate
 				</a></li>
-				<li sec:authorize="!isAuthenticated()"><a href="/login" th:text="#{nav.login}"> <span
+				<li sec:authorize="!isAuthenticated()"><a href="/login"
+					th:text="#{nav.login}"> <span
 						class="glyphicon glyphicon-log-in"></span> Identificate
 				</a></li>
 				</li>
-				<li sec:authorize="isAuthenticated()"><a href="/logout" th:text="#{nav.disconnect}"> <span
-						class="glyphicon glyphicon-log-out"></span> Desconectar
-				</a></li>
+				<li class="dropdown" sec:authorize="isAuthenticated()"><a
+					id="btnPerfil" href="
+ #" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false"> <span th:text="Perfil"></span> <span
+						class="caret"></span>
+				</a>
 
-			</ul>
+					<ul class="dropdown-menu">
+					<li style="margin-left:20px" th:text="${authUsser.email}">
+					<li style="margin-left:20px" th:text="'Saldo: '+${authUsser.saldo}+' €' ">
+
+						</li>
+
+						<li><a href="/logout" th:text="#{nav.disconnect}"> <span
+								class="glyphicon glyphicon-log-out"></span> Desconectar
+						</a></li>
+
+					</ul></li>
 		</div>
 	</div>
 </nav>
