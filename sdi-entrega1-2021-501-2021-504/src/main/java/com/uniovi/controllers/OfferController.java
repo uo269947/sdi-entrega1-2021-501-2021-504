@@ -100,7 +100,7 @@ public class OfferController {
 			offers = offersService.getOffersBought(user);
 		}
 		model.addAttribute("offerList", offers);
-		return "offer/list";
+		return "offer/boughtList";
 	}
 	
 	@RequestMapping("/offer/delete/{id}")

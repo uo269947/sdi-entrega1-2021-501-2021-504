@@ -3,19 +3,20 @@
 	<thead>
 		<tr>
 			<th class="col-md-1"></th>
-			<th th:text="#{offers.title}">Título</th>
+			<th th:text="#{offers.add.title}">Título</th>
 			<th th:text="#{offers.add.description}">Descripcion</th>
-			<th class="col-md-1"></th>
+			
 			<th th:text="#{offers.add.price}">Precio</th>
+			<th >Email</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr th:each="offer : ${offerList}">
 			<td></td>
-			<td th:text="${offer.title}">Ejercicio 1</td>
+			<td th:text="${offer.title}"></td>
 			<td th:text="${offer.description}"></td>
-			<td ></td>
 			<td th:text="${offer.price}"></td>
+			<td th:text="${offer.user.email}"></td>
 		</tr>
 	</tbody>
 </table>

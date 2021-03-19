@@ -5,7 +5,7 @@
 	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav"/>
 	<div class="container">
-		<h2>Ofertas</h2>
+		<h2 th:text="#{offers.bought.title}">Ofertas compradas</h2>
 		<form class="navbar-form" action="/offer/boughtList">
 			<div class="form-group">
 				<input name="searchText" type="text" class="form-control" size="50"
