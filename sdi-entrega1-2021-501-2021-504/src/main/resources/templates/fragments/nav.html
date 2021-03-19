@@ -73,8 +73,8 @@
 				</a>
 
 					<ul class="dropdown-menu">
-					<li style="margin-left:20px" th:text="${authUsser.email}">
-					<li style="margin-left:20px" th:text="'Saldo: '+${authUsser.saldo}+' €' ">
+					<li style="margin-left:20px" th:text="${#httpSession.getAttribute('authUsser').email}">
+					<li style="margin-left:20px" th:text="'Saldo: '+${#httpSession.getAttribute('authUsser').saldo}+' €' ">
 
 						</li>
 

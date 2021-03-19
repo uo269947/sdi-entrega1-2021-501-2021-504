@@ -109,12 +109,6 @@ public class UsersController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		User activeUser = usersService.getUserByEmail(email);
-		httpSession.setAttribute("authUsser", activeUser);
-		
-		model.addAttribute("authUsser", activeUser);
 		return "login";
 	}
 
@@ -123,7 +117,7 @@ public class UsersController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
-		model.addAttribute("authUsser", activeUser);
+		httpSession.setAttribute("authUsser", activeUser);
 		return "home";
 		
 	}
