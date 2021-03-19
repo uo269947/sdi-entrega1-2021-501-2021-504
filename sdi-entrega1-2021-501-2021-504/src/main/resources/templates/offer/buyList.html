@@ -5,8 +5,8 @@
 	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<h2 th:text="#{offers.list.title}">Ofertas</h2>
-		<form class="navbar-form" action="/offer/list">
+		<h2 th:text="#{offers.buy.title}">Ofertas disponibles</h2>
+		<form class="navbar-form" action="/offer/buyList">
 			<div class="form-group">
 				<input name="searchText" type="text" class="form-control" size="50"
 					placeholder="Buscar por descripción o nombre del alumno">
@@ -15,8 +15,8 @@
 		</form>
 		<p>Titulo</p>
 		<button type="button" id="updateButton" class="btn btn-default">Actualizar</button>
-		<table th:replace="fragments/ownOffersList" id="ownOffersList"></table>
+		<table th:replace="fragments/otherOffersList" id="otherOffersList"></table>
 	</div>
-	<footer th:replace="fragments/footer" />
+	<footer th:replace="fragments/footer"/>
 </body>
 </html>

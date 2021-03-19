@@ -12,19 +12,30 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "offer")
 public class Offer {
+	@Id
+	@GeneratedValue
+	private long id;
+
+	private String title;
+	private LocalDate date;
+	private String description;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "buyer_id")
+	private User buyer;
+	
 	@Override
 	public String toString() {
 		return "Offer [id=" + id + ", title=" + title + ", description=" + description + ", date=" + date + ", price="
 				+ price + "]";
 	}
 
-	@Id
-	@GeneratedValue
-	private long id;
-
-	private String title;
-
-	private String description;
+	
 
 	public long getId() {
 		return id;
@@ -46,7 +57,7 @@ public class Offer {
 		return price;
 	}
 
-	private LocalDate date;
+	
 
 	public void setId(long id) {
 		this.id = id;
@@ -66,9 +77,19 @@ public class Offer {
 
 	private double price;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	
+
+	public User getBuyer() {
+		return buyer;
+	}
+
+	public void setBuyer(User buyer) {
+		this.buyer = buyer;
+	}
+
+	public User getUser() {
+		return user;
+	}
 
 	public Offer() {
 

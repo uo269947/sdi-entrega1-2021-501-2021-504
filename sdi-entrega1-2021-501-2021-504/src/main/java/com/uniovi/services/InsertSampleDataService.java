@@ -19,16 +19,19 @@ public class InsertSampleDataService {
 	public void init() {
 		User user1 = new User("user", "Pedro", "Díaz");
 		user1.setPassword("user");
+		user1.setSaldo(100.0);
 		user1.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user1);
 		
 		User user2 = new User("Juan@gmail.com", "Juan", "Díaz");
 		user2.setPassword("user");
+		user2.setSaldo(100.0);
 		user2.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user2);
 		
 		User user3 = new User("pepe@hotmail.com", "Pepe", "Perez");
 		user3.setPassword("user");
+		user3.setSaldo(100.0);
 		user3.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user3);
 		

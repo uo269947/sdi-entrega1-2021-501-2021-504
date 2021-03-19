@@ -5,7 +5,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +35,9 @@ public class OfferController {
 	
 	@Autowired 
 	SecurityService securityService;
+	
+	@Autowired
+	HttpSession httpSession;
 	
 	@RequestMapping("/offer/add")
 	public String getOffer(Model model) {
@@ -67,9 +74,54 @@ public class OfferController {
 		return "offer/list";
 	}
 	
+	@RequestMapping("/offer/buyList")
+	public String getListadoCompra(Model model, Principal principal, @RequestParam(value = "", required=false) String searchText) {
+		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
+		List<Offer> offers = new ArrayList<Offer>();
+		if (searchText != null && !searchText.isEmpty()) {
+			offers = offersService.getOtherOffersBySearch(user, searchText);
+		}
+		else {
+			offers = offersService.getOtherOffers(user);
+		}
+		model.addAttribute("offerList", offers);
+		//model.addAttribute("deletesOffer", new ArrayList<Offer>());
+		return "offer/buyList";
+	}
+	
+	@RequestMapping("/offer/boughtList")
+	public String getListadoCompradas(Model model, Principal principal, @RequestParam(value = "", required=false) String searchText) {
+		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
+		List<Offer> offers = new ArrayList<Offer>();
+		if (searchText != null && !searchText.isEmpty()) {
+			offers = offersService.getOffersBoughtBySearch(user, searchText);
+		}
+		else {
+			offers = offersService.getOffersBought(user);
+		}
+		model.addAttribute("offerList", offers);
+		return "offer/list";
+	}
+	
 	@RequestMapping("/offer/delete/{id}")
 	public String deleteOffer(@PathVariable Long id) {
 		offersService.deleteOffer(id);
 		return "redirect:/offer/list";
+	}
+	
+	@RequestMapping("/offer/buy/{id}")
+	public String buyOffer(Model model,@PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);;
+		
+		User user = offersService.buyOffer(id,activeUser);
+		if( user== null)
+			return "home";
+		
+		httpSession.setAttribute("authUsser", user);
+		List<Offer> offers = offersService.getOtherOffers(user);	
+		model.addAttribute("offerList", offers);
+		return "redirect:/offer/buyList";
 	}
 }
