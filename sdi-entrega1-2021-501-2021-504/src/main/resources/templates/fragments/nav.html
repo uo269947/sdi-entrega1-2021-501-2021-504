@@ -36,8 +36,7 @@
 			<ul class="nav navbar-nav navbar-right">
 
 
-				<li class="dropdown"><a id="btnLanguage" href="
- #"
+				<li class="dropdown"><a id="btnLanguage" href="#"
 					class="dropdown-toggle" data-toggle="dropdown" role="button"
 					aria-haspopup="true" aria-expanded="false"> <span
 						th:text="#{language.change}"></span> <span class="caret"></span>
@@ -48,16 +47,13 @@
 								style="border: 0; float: left; margin-right: 15px" /> <span
 								th:text="#{language.en}">Ingles</span>
 						</a></li>
+						
 						<li><a id="btnSpanish" value="ES"> <img
 								th:src="@{/img/if_spain_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
 								th:text="#{language.es}">Español</span>
 						</a></li>
-						<li><a id="btnSpanish" value="IT"> <img
-								th:src="@{/img/if_IT_flag.png}"
-								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.it}">Italiano</span>
-						</a></li>
+						
 					</ul></li>
 				<li sec:authorize="!isAuthenticated()"><a href="/signup"
 					th:text="#{nav.signup}"> <span class="glyphicon glyphicon-user"></span>
@@ -78,7 +74,7 @@
 
 					<ul class="dropdown-menu">
 					<li style="margin-left:20px" th:text="${#httpSession.getAttribute('authUsser').email}">
-					<li style="margin-left:20px" th:text="'Saldo: '+${#httpSession.getAttribute('authUsser').saldo}+' €' ">
+					<li style="margin-left:20px" th:text="${#httpSession.getAttribute('authUsser').saldo}+' €' ">
 
 						</li>
 
