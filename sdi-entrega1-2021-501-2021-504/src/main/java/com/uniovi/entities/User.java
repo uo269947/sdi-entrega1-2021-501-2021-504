@@ -1,10 +1,16 @@
 package com.uniovi.entities;
 
-import javax.persistence.*;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set; //A collection that contains no duplicate elements
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "user")
@@ -24,10 +30,10 @@ public class User {
 	@Transient
 	private boolean canAfford=true;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Offer> offers;
+	private Set<Offer> offers = new HashSet<Offer>();
 	
 	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
-	private Set<Offer> ownedOffers;
+	private Set<Offer> ownedOffers= new HashSet<Offer>();
 	
 	public Set<Offer> getOffers() {
 		return offers;
@@ -130,6 +136,7 @@ public class User {
 
 	public void buyOffer(Offer offer) {
 		setSaldo(getSaldo()-offer.getPrice());
+		ownedOffers.add(offer);
 		
 		
 	}
@@ -140,6 +147,11 @@ public class User {
 	
 	public void cannotAfford() {
 		canAfford=false;
+		
+	}
+
+	public void addOffer(Offer offer) {
+		offers.add(offer);
 		
 	}
 

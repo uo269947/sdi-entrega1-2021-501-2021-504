@@ -62,6 +62,11 @@ public class UsersService {
 		return users;
 	}
 
+	public void saveUser(User user) {
+		usersRepository.save(user);
+		
+	}
+
 	
 
 	

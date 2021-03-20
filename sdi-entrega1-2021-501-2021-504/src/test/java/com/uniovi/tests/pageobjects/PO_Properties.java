@@ -35,6 +35,7 @@ public class PO_Properties {
 		
 		ResourceBundle bundle = ResourceBundle.getBundle(Path, idioms[locale]);
 		String value = bundle.getString(prop);
+		return value;/*
 		String result="";
 		try {
 			result = new String(value.getBytes("ISO-8859-1"), "UTF-8");
@@ -42,7 +43,7 @@ public class PO_Properties {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+		return result;*/
 	}
 
 	

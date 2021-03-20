@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
-import com.uniovi.repositories.OffersRepository;
 
 @Service
 public class InsertSampleDataService {
