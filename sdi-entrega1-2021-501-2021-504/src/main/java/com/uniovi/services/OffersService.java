@@ -72,9 +72,9 @@ public class OffersService {
 			return null;
 		if(offer.getPrice()>user.getSaldo()) //comprobamos que tiene saldo
 			return null;
-		user.setSaldo(user.getSaldo()-offer.getPrice());
-		offer.setBuyer(user);
 		
+		offer.setBuyer(user);
+		user.buyOffer(offer);
 		offersRepository.save(offer);
 		usersRepository.save(user);
 		return user;
