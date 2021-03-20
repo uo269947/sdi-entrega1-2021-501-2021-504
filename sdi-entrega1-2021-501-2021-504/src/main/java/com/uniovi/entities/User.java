@@ -92,4 +92,13 @@ public class User {
 		this.passwordConfirm = passwordConfirm;
 	}
 
+	public double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(double d) {
+		this.saldo = d;
+		
+	}
+
 }
