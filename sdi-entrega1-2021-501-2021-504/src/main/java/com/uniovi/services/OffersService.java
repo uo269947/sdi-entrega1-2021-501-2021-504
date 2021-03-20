@@ -53,7 +53,7 @@ public class OffersService {
 
 	public Page<Offer> getOtherOffers(Pageable pageable, User user) {
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
-		offersRepository.findOtherOffers(pageable, user);
+		offers = offersRepository.findOtherOffers(pageable, user);
 		return offers;
 	}
 

@@ -18,7 +18,7 @@
 			<td th:text="${offer.price}"></td>
 			<td>
 				<a th:href="${'/offer/buy/' + offer.id}" th:if="${offer.buyer == null}" th:text="#{offers.fragmentList.buy}">Comprar</a>
-    			<span th:unless="${offer.buyer == null}" th:text="#{offer.sold}">Vendido</span>
+    			<span th:unless="${offer.buyer == null}" th:text="#{offers.fragmentList.sold}">Vendido</span>
 			</td>
 		</tr>
 	</tbody>
