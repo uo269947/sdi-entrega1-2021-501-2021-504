@@ -1,9 +1,13 @@
 package com.uniovi.services;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Offer;
@@ -47,16 +51,16 @@ public class OffersService {
 		offersRepository.deleteById(id);
 	}
 
-	public List<Offer> getOtherOffers(User user) {
-		List<Offer> offers = new ArrayList<Offer>();
-		offersRepository.findOtherOffers(user).forEach(offers::add);
+	public Page<Offer> getOtherOffers(Pageable pageable, User user) {
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
+		offersRepository.findOtherOffers(pageable, user);
 		return offers;
 	}
 
-	public List<Offer> getOtherOffersBySearch(User user, String searchText) {
-		List<Offer> offers = new ArrayList<Offer>();
+	public Page<Offer> getOtherOffersBySearch(Pageable pageable, User user, String searchText) {
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 		searchText = "%"+searchText+"%";
-		offers = offersRepository.searchOthersByDescriptionAndUser(searchText, user);
+		offers = offersRepository.searchOthersByDescriptionAndUser(pageable, searchText, user);
 		return offers;
 	}
 

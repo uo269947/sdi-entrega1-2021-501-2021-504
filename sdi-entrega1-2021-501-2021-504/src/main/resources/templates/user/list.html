@@ -5,8 +5,8 @@
 	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<h2>Usuarios</h2>
-		<p>Los usuarios que actualmente figuran en el sistema son los
+		<h2 th:text="#{users.title}">Usuarios</h2>
+		<p th:text="#{users.title.long}">Los usuarios que actualmente figuran en el sistema son los
 			siguientes:</p>
 
 		<div class="table-responsive">
@@ -14,10 +14,10 @@
 				id="tableUsers">
 				<thead>
 					<tr>
-						<th>Email</th>
-						<th>Nombre</th>
-						<th>Apellidos</th>
-						<th>Eliminar</th>
+						<th th:text="#{users.list.email}">Email</th>
+						<th th:text="#{users.list.name}">Nombre</th>
+						<th th:text="#{users.list.surname}">Apellidos</th>
+						<th></th>
 					</tr>
 				</thead>
 				<form method="post" action="/user/delete" th:object="${userForm}">
@@ -31,7 +31,7 @@
 						</tr>
 					</tbody>
 			</table>
-			<button type="submit">Eliminar</button>
+			<button type="submit" th:text="#{users.list.delete}">Eliminar</button>
 			</form>
 		</div>
 	</div>

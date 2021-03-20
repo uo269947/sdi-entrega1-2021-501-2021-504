@@ -7,8 +7,7 @@
 	<div class="container" style="text-align: center">
 		<h2 th:text="#{welcome.message}"></h2>
 		<h3 th:text="#{home.zone}"></h3>
-		<p th:text="#{home.user}">
-			
+		<p th:text="#{home.user}">			
 		</p>
 		<span sec:authentication="principal.username" th:inline="text"> </span>
 	</div>

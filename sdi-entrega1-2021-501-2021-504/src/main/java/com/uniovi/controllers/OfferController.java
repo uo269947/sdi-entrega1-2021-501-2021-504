@@ -3,11 +3,15 @@ package com.uniovi.controllers;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -75,16 +79,16 @@ public class OfferController {
 	}
 	
 	@RequestMapping("/offer/buyList")
-	public String getListadoCompra(Model model, Principal principal, @RequestParam(value = "", required=false) String searchText) {
+	public String getListadoCompra(Model model, Pageable pageable, Principal principal, @RequestParam(value = "", required=false) String searchText) {
 		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
-		List<Offer> offers = new ArrayList<Offer>();
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 		if (searchText != null && !searchText.isEmpty()) {
-			offers = offersService.getOtherOffersBySearch(user, searchText);
+			offers = offersService.getOtherOffersBySearch(pageable, user, searchText);
 		}
 		else {
-			offers = offersService.getOtherOffers(user);
+			offers = offersService.getOtherOffers(pageable, user);
 		}
-		model.addAttribute("offerList", offers);
+		model.addAttribute("offerList", offers.getContent());
 		//model.addAttribute("deletesOffer", new ArrayList<Offer>());
 		return "offer/buyList";
 	}
@@ -110,18 +114,18 @@ public class OfferController {
 	}
 	
 	@RequestMapping("/offer/buy/{id}")
-	public String buyOffer(Model model,@PathVariable Long id) {
+	public String buyOffer(Model model, Pageable pageable, @PathVariable Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
-		User activeUser = usersService.getUserByEmail(email);;
-		
+		User activeUser = usersService.getUserByEmail(email);
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 		User user = offersService.buyOffer(id,activeUser);
 		if( user== null)
 			return "home";
 		
 		httpSession.setAttribute("authUsser", user);
-		List<Offer> offers = offersService.getOtherOffers(user);	
-		model.addAttribute("offerList", offers);
+		offers = offersService.getOtherOffers(pageable, user);	
+		model.addAttribute("offerList", offers.getContent());
 		return "redirect:/offer/buyList";
 	}
 }

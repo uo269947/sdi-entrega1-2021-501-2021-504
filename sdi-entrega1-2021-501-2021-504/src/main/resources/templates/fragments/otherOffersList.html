@@ -3,10 +3,10 @@
 	<thead>
 		<tr>
 			<th class="col-md-1"></th>
-			<th th:text="#{offers.title}">Título</th>
-			<th th:text="#{offers.add.description}">Descripcion</th>
+			<th th:text="#{offers.fragmentList.title}">Título</th>
+			<th th:text="#{offers.fragmentList.description}">Descripcion</th>
 			<th class="col-md-1"></th>
-			<th th:text="#{offers.add.price}">Precio</th>
+			<th th:text="#{offers.fragmentList.price}">Precio</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -17,7 +17,7 @@
 			<td ></td>
 			<td th:text="${offer.price}"></td>
 			<td>
-				<a th:href="${'/offer/buy/' + offer.id}" th:if="${offer.buyer == null}" th:text="#{offer.buy}">Comprar</a>
+				<a th:href="${'/offer/buy/' + offer.id}" th:if="${offer.buyer == null}" th:text="#{offers.fragmentList.buy}">Comprar</a>
     			<span th:unless="${offer.buyer == null}" th:text="#{offer.sold}">Vendido</span>
 			</td>
 		</tr>

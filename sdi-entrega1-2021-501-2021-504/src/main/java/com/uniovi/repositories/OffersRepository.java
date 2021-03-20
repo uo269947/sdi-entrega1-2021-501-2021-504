@@ -2,6 +2,8 @@ package com.uniovi.repositories;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -28,6 +30,10 @@ public interface OffersRepository  extends CrudRepository<Offer, Long>{
 	@Query("SELECT r FROM Offer r WHERE r.user <> ?1 AND r.buyer = ?1 ORDER BY r.id ASC ")
 	List<Offer> findBoughtOffers(User user);
 
+	@Query("SELECT r FROM Offer r WHERE r.user <> ?1  ORDER BY r.id ASC ")
+	Page<Offer> findOtherOffers(Pageable pageable, User user);
 
+	@Query ("SELECT r FROM Offer r WHERE (LOWER(r.title) LIKE LOWER(?1) OR LOWER(r.description) LIKE LOWER(?1) OR LOWER(r.user.name) LIKE LOWER(?1)) AND r.user <> ?2 AND r.buyer is null")
+	Page<Offer> searchOthersByDescriptionAndUser(Pageable pageable, String searchText, User user);
 
 }

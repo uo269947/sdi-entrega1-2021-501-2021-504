@@ -11,25 +11,26 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/user/list"
-					th:text="#{nav.list}"></a></li>
+					th:text="#{nav.users.list}"></a></li>
 				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#" th:text="#{nav.mine}"> <span
+					data-toggle="dropdown" href="#" th:text="#{nav.offers.mine}"> <span
 						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/offer/add" th:text="#{nav.mine.new}"></a></li>
-						<li><a href="/offer/list" th:text="#{nav.mine.list}"></a></li>
+						<li><a href="/offer/add" th:text="#{nav.offers.mine.add}"></a></li>
+						<li><a href="/offer/list" th:text="#{nav.offers.mine.list}"></a></li>
 					</ul></li>
 				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#" th:text="#{nav.others}"> <span
-						class="caret"></span>
+					data-toggle="dropdown" href="#" th:text="#{nav.offers.others}">
+						<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
 
-						<li><a href="/offer/buyList" th:text="#{nav.others.buy}"></a></li>
-						<li><a href="/offer/boughtList" th:text="#{nav.others.bought}"></a></li>
-					</ul>
-				</li>
+						<li><a href="/offer/buyList"
+							th:text="#{nav.offers.others.buy}"></a></li>
+						<li><a href="/offer/boughtList"
+							th:text="#{nav.offers.others.bought}"></a></li>
+					</ul></li>
 
 			</ul>
 
@@ -47,13 +48,13 @@
 								style="border: 0; float: left; margin-right: 15px" /> <span
 								th:text="#{language.en}">Ingles</span>
 						</a></li>
-						
+
 						<li><a id="btnSpanish" value="ES"> <img
 								th:src="@{/img/if_spain_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
 								th:text="#{language.es}">Español</span>
 						</a></li>
-						
+
 					</ul></li>
 				<li sec:authorize="!isAuthenticated()"><a href="/signup"
 					th:text="#{nav.signup}"> <span class="glyphicon glyphicon-user"></span>
@@ -68,13 +69,15 @@
 					id="btnPerfil" href="
  #" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false"> <span th:text="Perfil"></span> <span
+					aria-expanded="false"> <span th:text="#{nav.profile}"></span> <span
 						class="caret"></span>
 				</a>
 
 					<ul class="dropdown-menu">
-					<li style="margin-left:20px" th:text="${#httpSession.getAttribute('authUsser').email}">
-					<li style="margin-left:20px" th:text="${#httpSession.getAttribute('authUsser').saldo}+' €' ">
+						<li style="margin-left: 20px"
+							th:text="${#httpSession.getAttribute('authUsser').email}">
+						<li style="margin-left: 20px"
+							th:text="${#httpSession.getAttribute('authUsser').saldo}+' €' ">
 
 						</li>
 
