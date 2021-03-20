@@ -27,11 +27,11 @@
 							<td th:text="${user.name}">Nombre del alumno</td>
 							<td th:text="${user.lastName}">Apellidos del alumno</td>
 							<td><input type="checkbox" th:name="idChecked"
-								th:value="${user.id}"></td>
+								class="checkbox" th:id="${user.id}" th:value="${user.id}"></td>
 						</tr>
 					</tbody>
 			</table>
-			<button type="submit" th:text="#{users.list.delete}">Eliminar</button>
+			<button type="submit" id="btnEliminar" th:text="#{users.list.delete}">Eliminar</button>
 			</form>
 		</div>
 	</div>

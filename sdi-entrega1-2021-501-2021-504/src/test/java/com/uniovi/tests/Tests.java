@@ -1,6 +1,7 @@
 package com.uniovi.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +34,6 @@ import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
-import com.uniovi.tests.util.SeleniumUtils;
 
 //Ordenamos las pruebas por el nombre del método
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -353,13 +354,62 @@ public class Tests {
 	}
 
 	@Test
-	public void test13() { // Listado de todos los usuarios
+	public void test13() { // Borrar el primer usuario
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.es", "admin");
 
 		PO_View.checkElement(driver, "text", "Listado de usuarios");
 		PO_HomeView.clickOption(driver, "user/list", "text", "Listado de usuarios");
 
+	
+		List<WebElement> checkBoxes=PO_View.checkElement(driver, "class", "checkbox");
+		int size1= checkBoxes.size();
+		checkBoxes.get(0).click();
+		PO_View.checkElement(driver, "id", "btnEliminar").get(0).click();
+		 checkBoxes=PO_View.checkElement(driver, "class", "checkbox");
+		int size2= checkBoxes.size();
+		assertTrue(size1!=size2);;
+	}
+	
+	@Test
+	public void test14() { // Borrar el ultimo usuario
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.es", "admin");
+
+		PO_View.checkElement(driver, "text", "Listado de usuarios");
+		PO_HomeView.clickOption(driver, "user/list", "text", "Listado de usuarios");
+
+		
+		List<WebElement> checkBoxes=PO_View.checkElement(driver, "class", "checkbox");
+		int size1= checkBoxes.size();
+		checkBoxes.get(size1-1).click();
+		PO_View.checkElement(driver, "id", "btnEliminar").get(0).click();
+		 checkBoxes=PO_View.checkElement(driver, "class", "checkbox");
+		int size2= checkBoxes.size();
+		assertTrue(size1!=size2);;
+	}
+	
+	@Test
+	public void test15() { // Borrar varios
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.es", "admin");
+
+		PO_View.checkElement(driver, "text", "Listado de usuarios");
+		PO_HomeView.clickOption(driver, "user/list", "text", "Listado de usuarios");
+
+		List<User> users = usersService.getNormalUsers();
+		User u1= users.get(0);
+		User u2= users.get(1);
+		User u3 = users.get(2);
+		
+		PO_View.checkElement(driver, "id", String.valueOf(u1.getId())).get(0).click();
+		PO_View.checkElement(driver, "id", String.valueOf(u2.getId())).get(0).click();
+		PO_View.checkElement(driver, "id", String.valueOf(u3.getId())).get(0).click();
+		PO_View.checkElement(driver, "id", "btnEliminar").get(0).click();
+		
+		PO_View.checkNoText(driver, u1.getEmail());
+		PO_View.checkNoText(driver, u2.getEmail());
+		PO_View.checkNoText(driver, u3.getEmail());
 	}
 
 	@Test
