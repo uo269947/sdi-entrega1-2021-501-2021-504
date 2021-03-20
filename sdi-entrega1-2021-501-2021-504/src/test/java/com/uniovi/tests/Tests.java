@@ -1,6 +1,9 @@
 package com.uniovi.tests;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,12 +19,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.UsersRepository;
+import com.uniovi.services.OffersService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.UsersService;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
@@ -35,14 +41,20 @@ public class Tests {
 	@Autowired
 	private UsersService usersService;
 	@Autowired
+	private OffersService offersService;
+	@Autowired
 	private RolesService rolesService;
 	@Autowired
 	private UsersRepository usersRepository;
 
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
+//	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+//	static String Geckdriver024 = "C:\\Users\\Eric\\Desktop\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\Eric\\Desktop\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\aleex\\Desktop\\UniTercero2\\SDI\\Material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	
 	// En MACOSX (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas):
 	// static String PathFirefox65 =
@@ -66,28 +78,117 @@ public class Tests {
 	}
 
 	public void initdb() {
-		User user1 = new User("user", "Pedro", "Díaz");
-		user1.setPassword("user");
-		user1.setSaldo(100.0);
-		user1.setRole(rolesService.getRoles()[0]);
-		usersService.addUser(user1);
+		// Usuario 1
+				User user1 = new User("user", "Pedro", "Díaz");
+				user1.setPassword("user");
+				user1.setSaldo(100.0);
+				user1.setRole(rolesService.getRoles()[0]);
+				usersService.addUser(user1);
+				// Ofertas usuario 1
+				Offer of1 = new Offer("Triciclo", "En buen estado", LocalDate.now(), 50, user1);
+				offersService.addOffer(of1);
+				Offer of2 = new Offer("Boligrafo", "De regalo entrada para la final de la champions", LocalDate.now(), 110,
+						user1);
+				offersService.addOffer(of2);
+				Offer of3 = new Offer("Movil", "Alcatel", LocalDate.now(), 30, user1);
+				offersService.addOffer(of3);
 
-		User user2 = new User("Juan@gmail.com", "Juan", "Díaz");
-		user2.setPassword("user");
-		user2.setSaldo(100.0);
-		user2.setRole(rolesService.getRoles()[0]);
-		usersService.addUser(user2);
+				// Usuario 2
+				User user2 = new User("Juan@gmail.com", "Juan", "Díaz");
+				user2.setPassword("123456");
+				user2.setSaldo(200.0);
+				user2.setRole(rolesService.getRoles()[0]);
+				usersService.addUser(user2);
+				// Ofertas usuario 2
+				Offer of4 = new Offer("Opel corsa", "Lo vendo", LocalDate.now(), 80, user2);
+				offersService.addOffer(of4);
+				Offer of5 = new Offer("PC", "Con intel core 7", LocalDate.now(), 70, user2);
+				offersService.addOffer(of5);
+				Offer of6 = new Offer("Piedra", "Durisima", LocalDate.now(), 30, user2);
+				offersService.addOffer(of6);
 
-		User user3 = new User("pepe@hotmail.com", "Pepe", "Perez");
-		user3.setPassword("user");
-		user3.setSaldo(100.0);
-		user3.setRole(rolesService.getRoles()[0]);
-		usersService.addUser(user3);
+				// Usuario 3
+				User user3 = new User("pepe@hotmail.com", "Pepe", "Perez");
+				user3.setPassword("123456");
+				user3.setSaldo(100.0);
+				user3.setRole(rolesService.getRoles()[0]);
+				usersService.addUser(user3);
+				// Ofertas usuario3
+				Offer of7 = new Offer("Gorra de alonso ", "Firmada por el propio Alonso", LocalDate.now(), 999, user3);
+				offersService.addOffer(of7);
+				Offer of8 = new Offer("Portatil", "De marca HP", LocalDate.now(), 90, user3);
+				offersService.addOffer(of8);
+				Offer of9 = new Offer("Hoja de papel", "Es blanca ", LocalDate.now(), 10, user3);
+				offersService.addOffer(of9);
 
-		User admin = new User("admin@email.es", "admin", "admin");
-		admin.setPassword("admin");
-		admin.setRole(rolesService.getRoles()[1]);
-		usersService.addUser(admin);
+				// Usuario 4
+				User user4 = new User("alex@hotmail.com", "Alex", "Caso");
+				user4.setPassword("123456");
+				user4.setSaldo(500.0);
+				user4.setRole(rolesService.getRoles()[0]);
+				usersService.addUser(user4);
+
+				// Ofertas usuario4
+				Offer of10 = new Offer("Camara digital ", "Hace muy buenas fotos", LocalDate.now(), 220, user4);
+				offersService.addOffer(of10);
+				Offer of11 = new Offer("Tablet", "De marca Samsung", LocalDate.now(), 80, user4);
+				offersService.addOffer(of11);
+				Offer of12 = new Offer("Nintendo", "Esta rota ", LocalDate.now(), 40, user4);
+				offersService.addOffer(of12);
+
+				// Usuario 5
+				User user5 = new User("eric@hotmail.com", "Eric", "Almeda");
+				user5.setPassword("123456");
+				user5.setSaldo(500.0);
+				user5.setRole(rolesService.getRoles()[0]);
+				usersService.addUser(user5);
+				// Ofertas usuario 5
+				Offer of13 = new Offer("Ford fiesta ", "65 caballos", LocalDate.now(), 500, user5);
+				Offer of14 = new Offer("Playeros", "De marca nike", LocalDate.now(), 80, user5);
+				Offer of15 = new Offer("Pelota de baloncesto", "Esta desinchada ", LocalDate.now(), 5, user5);
+				offersService.addOffer(of13);
+				offersService.addOffer(of14);
+				offersService.addOffer(of15);
+
+				// Usuario 6
+				User user6 = new User("edward@hotmail.com", "Edward", "Rolando");
+				user6.setPassword("123456");
+				user6.setSaldo(500.0);
+				user6.setRole(rolesService.getRoles()[0]);
+				usersService.addUser(user6);
+				// Ofertas usuario6
+				Offer of16 = new Offer("Lampara", "Grande para el salón", LocalDate.now(), 50, user6);
+				Offer of17 = new Offer("Aifon", "Es el 7", LocalDate.now(), 10, user6);
+				Offer of18 = new Offer("Dinero", "Vendo dinero", LocalDate.now(), 2, user6);
+
+				offersService.addOffer(of16);
+				offersService.addOffer(of17);
+				offersService.addOffer(of18);
+
+				// Compras de ofertas
+				offersService.buyOffer(of5.getId(), user1);
+				offersService.buyOffer(of6.getId(), user1);
+
+				offersService.buyOffer(of1.getId(), user2);
+				offersService.buyOffer(of2.getId(), user2);
+
+				offersService.buyOffer(of3.getId(), user3);
+				offersService.buyOffer(of4.getId(), user3);
+
+				offersService.buyOffer(of14.getId(), user4);
+				offersService.buyOffer(of18.getId(), user4);
+
+				offersService.buyOffer(of16.getId(), user5);
+				offersService.buyOffer(of17.getId(), user5);
+
+				offersService.buyOffer(of12.getId(), user6);
+				offersService.buyOffer(of13.getId(), user6);
+
+				User admin = new User("admin@email.es", "admin", "admin");
+				admin.setPassword("admin");
+				admin.setRole(rolesService.getRoles()[1]);
+				usersService.addUser(admin);
+
 	}
 
 	// Después de cada prueba se borran las cookies del navegador
@@ -226,5 +327,182 @@ public class Tests {
 		
 	}
 	
+	@Test
+	public void test12() { // Listado de todos los usuarios
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.es", "admin");
+		
+		PO_View.checkElement(driver, "text", "Listado de usuarios");
+		PO_HomeView.clickOption(driver, "user/list", "text", "Listado de usuarios");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		List<User> users = usersService.getNormalUsers();
+		
+		for (User u: users) {
+			PO_View.checkElement(driver, "text", u.getEmail());
+		}
+		
+	}
 	
+	@Test
+	public void test13() { // Listado de todos los usuarios
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.es", "admin");
+		
+		PO_View.checkElement(driver, "text", "Listado de usuarios");
+		PO_HomeView.clickOption(driver, "user/list", "text", "Listado de usuarios");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		
+		
+	}
+	
+	@Test
+	public void test16() { // Añadir una oferta a la lista
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickMisOfertas(driver);
+		SeleniumUtils.esperarSegundos(driver, 1);
+		PO_HomeView.clickOption(driver, "offer/add", "text");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		PO_PrivateView.fillFormAddOffer(driver, "Pelota Vasca", "Esta que flipas de nueva", "8");
+		
+		PO_View.checkElement(driver, "text", "Pelota Vasca");
+		
+	}
+	
+	@Test
+	public void test17() { // Añadir un usuarios inválidos
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickMisOfertas(driver);
+		SeleniumUtils.esperarSegundos(driver, 1);
+		PO_HomeView.clickOption(driver, "offer/add", "text");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		PO_PrivateView.fillFormAddOffer(driver, "", "Esta que flipas de nueva", "8");
+		
+		PO_PrivateView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		
+	}
+	
+	@Test
+	public void test18() { // Listado de todas mis ofertas
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickMisOfertas(driver);
+		SeleniumUtils.esperarSegundos(driver, 1);
+		PO_HomeView.clickOption(driver, "offer/list", "text");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		User user = usersService.getUserByEmail("user");
+		List<Offer> offers = offersService.getMyOffers(user);
+		for (Offer o: offers) {
+			PO_View.checkElement(driver, "text", o.getTitle());
+		}
+		
+	}
+	
+	@Test
+	public void test19() { // Eliminar mi primera oferta
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickMisOfertas(driver);
+		SeleniumUtils.esperarSegundos(driver, 1);
+		PO_HomeView.clickOption(driver, "offer/list", "text");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		User user = usersService.getUserByEmail("user");
+		List<Offer> offers = offersService.getMyOffers(user);
+		int pre = offers.size();
+		
+		PO_PrivateView.deleteOfferFromList(driver, "Triciclo");
+		
+		offers = offersService.getMyOffers(user);
+		assertEquals(pre - 1, offers.size());
+	}
+	
+	@Test
+	public void test20() { // Eliminar mi ultima oferta
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickMisOfertas(driver);
+		SeleniumUtils.esperarSegundos(driver, 1);
+		PO_HomeView.clickOption(driver, "offer/list", "text");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		User user = usersService.getUserByEmail("user");
+		List<Offer> offers = offersService.getMyOffers(user);
+		int pre = offers.size();
+		
+		PO_PrivateView.deleteOfferFromList(driver, "Movil");
+		
+		offers = offersService.getMyOffers(user);
+		assertEquals(pre - 1, offers.size());
+	}
+	
+	@Test
+	public void test21() { // Busqueda vacía mismos elementos
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickOtrasOfertas(driver);
+		SeleniumUtils.esperarSegundos(driver, 1);
+		PO_HomeView.clickOption(driver, "offer/buyList", "text");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		int pre = PO_PrivateView.count(driver, "othersOffersList");
+		PO_PrivateView.search(driver, "searchText", "");
+		int post = PO_PrivateView.count(driver, "otherOffersList");
+		assertEquals(pre, post);
+	}
+	
+	@Test
+	public void test22() { // Busqueda vacía mismos elementos
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickOtrasOfertas(driver);
+		SeleniumUtils.esperarSegundos(driver, 1);
+		PO_HomeView.clickOption(driver, "offer/buyList", "text");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		PO_PrivateView.search(driver, "searchText", "adasdsadasd");
+		int post = PO_PrivateView.count(driver, "otherOffersList");
+		
+		assertEquals(0, post);
+	}
+	
+	@Test
+	public void test26() { // Busqueda vacía mismos elementos
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickOtrasOfertas(driver);
+		SeleniumUtils.esperarSegundos(driver, 1);
+		PO_HomeView.clickOption(driver, "offer/boughtList", "text");
+		SeleniumUtils.esperarSegundos(driver, 1);
+		
+		User user = usersService.getUserByEmail("user");
+		List<Offer> offers = offersService.getOffersBought(user);
+		for (Offer o: offers) {
+			PO_View.checkElement(driver, "text", o.getTitle());
+		}		
+	}
+	
+	@Test
+	public void test27() { // Busqueda vacía mismos elementos
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickCambiarIdioma(driver);
+		SeleniumUtils.esperarSegundos(driver, 1);
+	
+	}
 }

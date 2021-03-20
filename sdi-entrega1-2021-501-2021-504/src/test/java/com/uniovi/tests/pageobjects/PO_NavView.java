@@ -36,6 +36,16 @@ public class PO_NavView extends PO_View {
 		assertTrue(elementos.size() == 1);
 	}
 	
+	public static void clickOption(WebDriver driver, String textOption, String criterio) {
+		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
+		// registro.
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "@href", textOption, getTimeout());
+		// Tiene que haber un sólo elemento.
+		assertTrue(elementos.size() == 1);
+		// Ahora lo clickamos
+		elementos.get(0).click();
+	}
+	
 	public static void clickProfile(WebDriver driver) {
 		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
 		// registro.
@@ -48,6 +58,37 @@ public class PO_NavView extends PO_View {
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Perfil", getTimeout());
 		// Tiene que haber un sólo elemento.
 		assertTrue(elementos.size() == 1);
+	}
+	
+	public static void clickMisOfertas(WebDriver driver) {
+		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
+		// registro.
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Mis Ofertas", getTimeout());
+		// Tiene que haber un sólo elemento.
+		assertTrue(elementos.size() == 1);
+		// Ahora lo clickamos
+		elementos.get(0).click();
+
+	}
+	
+	public static void clickOtrasOfertas(WebDriver driver) {
+		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
+		// registro.
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Buscar Ofertas", getTimeout());
+		// Tiene que haber un sólo elemento.
+		assertTrue(elementos.size() == 1);
+		// Ahora lo clickamos
+		elementos.get(0).click();
+	}
+	
+	public static void clickCambiarIdioma(WebDriver driver) {
+		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
+		// registro.
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Buscar Ofertas", getTimeout());
+		// Tiene que haber un sólo elemento.
+		assertTrue(elementos.size() == 1);
+		// Ahora lo clickamos
+		elementos.get(0).click();
 	}
 
 	/**
