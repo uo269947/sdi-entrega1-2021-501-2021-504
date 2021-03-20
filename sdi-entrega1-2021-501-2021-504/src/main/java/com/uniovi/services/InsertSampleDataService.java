@@ -11,7 +11,7 @@ import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.OffersRepository;
 
-
+@Service
 public class InsertSampleDataService {
 	@Autowired
 	private UsersService usersService;

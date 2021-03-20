@@ -1,3 +1,4 @@
+<div th:unless="${#httpSession.getAttribute('authUsser').canAfford() == true}" class="alert alert-danger" th:text="#{Error.offer.cannotAfford}"></div>
 <table class="table table-hover" th:fragment="otherOfferList"
 	id="otherOfferList">
 	<thead>
@@ -19,24 +20,13 @@
 			<td>
 			
 				<a th:href="${'/offer/buy/' + offer.id}"
-				th:if="${offer.buyer == null}" th:text="#{offers.fragmentList.buy}" th:id="${buyButton}">Comprar
+				th:if="${offer.buyer == null}" th:text="#{offers.fragmentList.buy}">Comprar
 				</a>
 				
 				<span th:unless="${offer.buyer == null}"
 				th:text="#{offers.fragmentList.sold}">Vendido</span> 
 				
-				<script
-					th:inline="javascript">
- 					/*<![CDATA[*/
- 					$( "buyButton" ).click(function() {
- 					var value ="<%=session.getAttribute("authUsser")%>";
- 					var money = value.saldo;
- 					alert(money);
- 					var urlUpdate = '/offer/buyList';
- 					$("#otherOfferList").load(urlUpdate);
- 					});
- 					/*]]>*/
- 				</script>
+				
  			</td>
 		</tr>
 	</tbody>

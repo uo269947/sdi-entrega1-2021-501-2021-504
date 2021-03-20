@@ -21,7 +21,8 @@ public class User {
 	private String passwordConfirm;
 	private double saldo;
 	private String role;
-
+	@Transient
+	private boolean canAfford=true;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Offer> offers;
 	
@@ -130,6 +131,15 @@ public class User {
 	public void buyOffer(Offer offer) {
 		setSaldo(getSaldo()-offer.getPrice());
 		
+		
+	}
+
+	public boolean canAfford() {
+		return canAfford;
+	}
+	
+	public void cannotAfford() {
+		canAfford=false;
 		
 	}
 

@@ -16,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ import com.uniovi.entities.User;
 import com.uniovi.services.OffersService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
+import com.uniovi.validators.AddOfferValidator;
 
 @Controller
 public class OfferController {
@@ -43,18 +46,21 @@ public class OfferController {
 	@Autowired
 	HttpSession httpSession;
 	
+	@Autowired
+	AddOfferValidator  addOfferValidator;
+	
 	@RequestMapping("/offer/add")
 	public String getOffer(Model model) {
+		model.addAttribute("offer",new Offer());
 		return "offer/add";
 	}
 	
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
-	public String setMark(@ModelAttribute Offer offer) {
-		//validar
-		//if (result.hasErrors()) {
-		//	model.addAttribute("usersList", usersService.getUsers());
-			//return "/mark/add";
-		//}
+	public String setMark(@Validated Offer offer, BindingResult result) {
+		addOfferValidator.validate(offer, result);
+		if (result.hasErrors()) 
+			return "/offer/add";
+		
 		offer.setDate(LocalDate.now());
 		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
 		offer.setUser(user);
@@ -74,7 +80,6 @@ public class OfferController {
 			offers = offersService.getMyOffers(user);
 		}
 		model.addAttribute("offerList", offers);
-		model.addAttribute("deletesOffer", new ArrayList<Offer>());
 		
 		return "offer/list";
 	}
@@ -91,7 +96,6 @@ public class OfferController {
 		}
 		model.addAttribute("offerList", offers.getContent());
 		model.addAttribute("page", offers);
-		//model.addAttribute("deletesOffer", new ArrayList<Offer>());
 		return "offer/buyList";
 	}
 	
@@ -123,9 +127,12 @@ public class OfferController {
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 		User user = offersService.buyOffer(id,activeUser);
 		if( user== null) {
-			model.addAttribute("canAfford","no");
-			return "redirect:/offer/buyList";		
-			}
+			activeUser.cannotAfford();
+			httpSession.setAttribute("authUsser", activeUser);
+			offers = offersService.getOtherOffers(pageable, activeUser);	
+			model.addAttribute("offerList", offers.getContent());
+			return "redirect:/offer/buyList";
+		}
 		
 		httpSession.setAttribute("authUsser", user);
 		offers = offersService.getOtherOffers(pageable, user);	

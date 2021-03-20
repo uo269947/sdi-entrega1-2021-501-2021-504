@@ -66,12 +66,13 @@ public class OffersService {
 
 	public User buyOffer(Long id,User user) {
 		Offer offer = offersRepository.findById(id).get();
-		if(offer.getUser().getId() == (user.getId())) //comprobamos que no el comprador y el vendedor no son los mismos
+		if(offer.getUser().getId() == (user.getId())) //comprobamos que  el comprador y el vendedor no son los mismos
 			return null;
 		if(offer.getBuyer() != null)//Comprobamos que no se ha comprado
 			return null;
-		if(offer.getPrice()>user.getSaldo()) //comprobamos que tiene saldo
+		if(offer.getPrice()>user.getSaldo()) { //comprobamos que tiene saldo
 			return null;
+		}
 		
 		offer.setBuyer(user);
 		user.buyOffer(offer);
