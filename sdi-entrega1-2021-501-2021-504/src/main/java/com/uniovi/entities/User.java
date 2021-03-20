@@ -1,6 +1,9 @@
 package com.uniovi.entities;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set; //A collection that contains no duplicate elements
 
 @Entity
@@ -22,6 +25,29 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Offer> offers;
 	
+	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+	private Set<Offer> ownedOffers;
+	
+	public Set<Offer> getOffers() {
+		return offers;
+	}
+
+	public void setOffers(Set<Offer> offers) {
+		this.offers = offers;
+	}
+
+	public Set<Offer> getOwnedOffers() {
+		return ownedOffers;
+	}
+
+	public void setOwnedOffers(Set<Offer> ownedOffers) {
+		this.ownedOffers = ownedOffers;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
+
 	public User(String email, String name, String lastName) {
 		super();
 		this.email = email;
@@ -98,6 +124,12 @@ public class User {
 
 	public void setSaldo(Double i) {
 		this.saldo=i;
+		
+	}
+
+	public void buyOffer(Offer offer) {
+		setSaldo(getSaldo()-offer.getPrice());
+		
 		
 	}
 

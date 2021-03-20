@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
+import com.uniovi.repositories.OffersRepository;
 import com.uniovi.repositories.UsersRepository;
 import com.uniovi.services.OffersService;
 import com.uniovi.services.RolesService;
@@ -46,6 +47,8 @@ public class Tests {
 	private RolesService rolesService;
 	@Autowired
 	private UsersRepository usersRepository;
+	@Autowired
+	private OffersRepository offerRepository;
 
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
@@ -189,6 +192,7 @@ public class Tests {
 				admin.setRole(rolesService.getRoles()[1]);
 				usersService.addUser(admin);
 
+
 	}
 
 	// Después de cada prueba se borran las cookies del navegador
@@ -247,7 +251,7 @@ public class Tests {
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 
 		PO_RegisterView.fillForm(driver, "pepe@hotmail.com", "Charles", "Leclerc", "ferrari", "ferrari");
-		PO_LoginView.checkKey(driver, "Error.signup.dni.duplicate", PO_Properties.getSPANISH());
+		PO_LoginView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
 
 	}
 
@@ -257,8 +261,9 @@ public class Tests {
 
 		PO_LoginView.fillForm(driver, "admin@email.es", "admin");
 
-		PO_LoginView.checkElement(driver, "text", "Listado de usuarios"); // Podemos aceder al listado de usuarios porque
-																		// somos admin
+		PO_LoginView.checkElement(driver, "text", "Listado de usuarios"); // Podemos aceder al listado de usuarios
+																			// porque
+																			// somos admin
 		PO_LoginView.checkNoText(driver, "Mis ofertas");
 	}
 
@@ -266,9 +271,10 @@ public class Tests {
 	public void test6() { // Login con usuario normal
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 
-		PO_LoginView.fillForm(driver, "pepe@hotmail.com", "user");
-		PO_LoginView.checkElement(driver, "text", "Mis Ofertas"); // Podemos aceder a mis ofertas porque somos un usuario
-																// normal
+		PO_LoginView.fillForm(driver, "pepe@hotmail.com", "123456");
+		PO_LoginView.checkElement(driver, "text", "Mis Ofertas"); // Podemos aceder a mis ofertas porque somos un
+																	// usuario
+																	// normal
 		PO_LoginView.checkNoText(driver, "Listado de usuarios");
 
 	}
@@ -279,14 +285,14 @@ public class Tests {
 
 		// Email vacio
 		PO_LoginView.fillForm(driver, "", "user");
-		PO_LoginView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		PO_LoginView.checkElement(driver, "text", "Identificate");
 
 		// Contraseña vacia
 		PO_LoginView.fillForm(driver, "pepe@hotmail.com", "");
-		PO_LoginView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		PO_LoginView.checkElement(driver, "text", "Identificate");
 
 	}
-	
+
 	@Test
 	public void test8() { // Login con contraseña incorrecta
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -296,6 +302,7 @@ public class Tests {
 		PO_LoginView.checkKey(driver, "Error.login", PO_Properties.getSPANISH());
 
 	}
+
 	@Test
 	public void test9() { // Login con email incorrecto
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -305,26 +312,25 @@ public class Tests {
 		PO_LoginView.checkKey(driver, "Error.login", PO_Properties.getSPANISH());
 
 	}
-	
+
 	@Test
 	public void test10() { // Logout
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 
 		// Email vacio
-		PO_LoginView.fillForm(driver, "pepe@hotmail.com", "user");
-		
+		PO_LoginView.fillForm(driver, "pepe@hotmail.com", "123456");
+
 		PO_HomeView.clickProfile(driver);
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 		PO_View.checkElement(driver, "text", "Identificate");
 
 	}
-	
+
 	@Test
 	public void test11() { // Logout no sale
 		PO_HomeView.checkElement(driver, "text", "Identificate");
 		PO_HomeView.checkNoText(driver, "Perfil");
-		
-		
+
 	}
 	
 	@Test

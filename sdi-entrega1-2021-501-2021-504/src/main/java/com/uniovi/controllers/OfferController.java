@@ -75,6 +75,7 @@ public class OfferController {
 		}
 		model.addAttribute("offerList", offers);
 		model.addAttribute("deletesOffer", new ArrayList<Offer>());
+		
 		return "offer/list";
 	}
 	
@@ -89,6 +90,7 @@ public class OfferController {
 			offers = offersService.getOtherOffers(pageable, user);
 		}
 		model.addAttribute("offerList", offers.getContent());
+		model.addAttribute("page", offers);
 		//model.addAttribute("deletesOffer", new ArrayList<Offer>());
 		return "offer/buyList";
 	}
@@ -120,8 +122,10 @@ public class OfferController {
 		User activeUser = usersService.getUserByEmail(email);
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 		User user = offersService.buyOffer(id,activeUser);
-		if( user== null)
-			return "home";
+		if( user== null) {
+			model.addAttribute("canAfford","no");
+			return "redirect:/offer/buyList";		
+			}
 		
 		httpSession.setAttribute("authUsser", user);
 		offers = offersService.getOtherOffers(pageable, user);	
