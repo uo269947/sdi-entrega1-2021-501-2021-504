@@ -70,7 +70,8 @@ public class PO_NavView extends PO_View {
 	public static void clickOtrasOfertas(WebDriver driver) {
 		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
 		// registro.
-		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Buscar Ofertas", getTimeout());
+	//	List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Buscar Ofertas", getTimeout());
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'otherOffers')]/a");
 		// Tiene que haber un sólo elemento.
 		assertTrue(elementos.size() == 1);
 		// Ahora lo clickamos

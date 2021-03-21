@@ -143,6 +143,9 @@ public class Tests {
 		offersService.addOffer(of11);
 		Offer of12 = new Offer("Nintendo", "Esta rota ", LocalDate.now(), 40, user4);
 		offersService.addOffer(of12);
+		Offer of19 = new Offer("Apuntes ", "Apuntes ingenieria informatica", LocalDate.now(), 40, user4);
+		offersService.addOffer(of19);
+		
 
 		// Usuario 5
 		User user5 = new User("eric@hotmail.com", "Eric", "Almeda");
@@ -311,7 +314,7 @@ public class Tests {
 	public void test9() { // Login con email incorrecto
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 
-		// Email vacio
+	
 		PO_LoginView.fillForm(driver, "@hotmail.com", "user");
 		PO_LoginView.checkKey(driver, "Error.login", PO_Properties.getSPANISH());
 
@@ -321,7 +324,7 @@ public class Tests {
 	public void test10() { // Logout
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 
-		// Email vacio
+		
 		PO_LoginView.fillForm(driver, "pepe@hotmail.com", "123456");
 
 		PO_HomeView.clickProfile(driver);
@@ -525,6 +528,67 @@ public class Tests {
 		int post = PO_PrivateView.count(driver, "otherOffersList");
 
 		assertEquals(0, post);
+	}
+	@Test
+	public void test23() { //comprar algo y que el saldo baje
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "Juan@gmail.com", "123456");
+		PO_HomeView.clickOtrasOfertas(driver);
+
+		User user = usersService.getUserByEmail("Juan@gmail.com");
+		Double saldo = PO_PrivateView.getSaldoMostrado(driver);
+		assertEquals(saldo,user.getSaldo(),0);
+		
+		PO_HomeView.clickOtrasOfertas(driver);
+		PO_HomeView.clickOption(driver, "offer/buyList", "text");
+		PO_PrivateView.search(driver, "searchText", "Hoja de papel");
+		PO_PrivateView.checkElement(driver, "class", "comprar").get(0).click();
+		
+		 user = usersService.getUserByEmail("Juan@gmail.com");
+		 Double saldo2 = PO_PrivateView.getSaldoMostrado(driver);
+		 assertEquals(saldo2,user.getSaldo(),0);
+		 assertTrue(saldo2<saldo);
+		
+	}
+	
+	@Test
+	public void test24() { //comprar algo y que el saldo se quede 0
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "Juan@gmail.com", "123456");
+		PO_HomeView.clickOtrasOfertas(driver);
+
+		User user = usersService.getUserByEmail("Juan@gmail.com");
+		Double saldo = PO_PrivateView.getSaldoMostrado(driver);
+		assertEquals(saldo,user.getSaldo(),0);
+		
+		PO_HomeView.clickOtrasOfertas(driver);
+		PO_HomeView.clickOption(driver, "offer/buyList", "text");
+		PO_PrivateView.search(driver, "searchText", "Apuntes");
+		PO_PrivateView.checkElement(driver, "class", "comprar").get(0).click();
+		
+		
+		 Double saldo2 = PO_PrivateView.getSaldoMostrado(driver);
+		 assertEquals(saldo2,0,0); //El saldo deberia ser 0
+		
+	}
+	
+	@Test
+	public void test25() { //comprar algo sin saldo suficiente
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "Juan@gmail.com", "123456");
+		PO_HomeView.clickOtrasOfertas(driver);
+
+		User user = usersService.getUserByEmail("Juan@gmail.com");
+		Double saldo = PO_PrivateView.getSaldoMostrado(driver);
+		assertEquals(saldo,user.getSaldo(),0);
+		
+		PO_HomeView.clickOtrasOfertas(driver);
+		PO_HomeView.clickOption(driver, "offer/buyList", "text");
+		PO_PrivateView.search(driver, "searchText", "Gorra de alonso");
+		PO_PrivateView.checkElement(driver, "class", "comprar").get(0).click();
+		
+		PO_PrivateView.checkKey(driver, "Error.offer.cannotAfford", PO_Properties.getSPANISH());
+		
 	}
 
 	@Test
