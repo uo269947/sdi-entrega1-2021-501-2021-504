@@ -47,8 +47,13 @@ public class OffersService {
 		return offers;
 	}
 
-	public void deleteOffer(Long id) {
+	public boolean deleteOffer(Long id,User user) {
+		Offer offer = offersRepository.findById(id).get();
+		if(offer.getBuyer().getId() != user.getId())
+			return false;
+		
 		offersRepository.deleteById(id);
+		return true;
 	}
 
 	public Page<Offer> getOtherOffers(Pageable pageable, User user) {

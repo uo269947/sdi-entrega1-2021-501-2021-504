@@ -55,6 +55,14 @@ public class User {
 		this.saldo = saldo;
 	}
 
+	
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", name=" + name + ", lastName=" + lastName + ", role=" + role
+				+ "]";
+	}
+
 	public User(String email, String name, String lastName) {
 		super();
 		this.email = email;

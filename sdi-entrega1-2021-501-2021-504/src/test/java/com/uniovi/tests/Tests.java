@@ -55,12 +55,12 @@ public class Tests {
 
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
-//	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-//	static String Geckdriver024 = "C:\\Users\\Eric\\Desktop\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+	static String Geckdriver024 = "C:\\Users\\Eric\\Desktop\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 
-	 static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	 static String Geckdriver024 =
-	 "C:\\Users\\aleex\\Desktop\\UniTercero2\\SDI\\Material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	// static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+	 //static String Geckdriver024 =
+	 //"C:\\Users\\aleex\\Desktop\\UniTercero2\\SDI\\Material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 
 	// En MACOSX (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas):

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,112 +35,129 @@ import com.uniovi.validators.AddOfferValidator;
 @Controller
 public class OfferController {
 
+	private Logger log = Logger.getGlobal();
+
 	@Autowired
 	OffersService offersService;
-	
+
 	@Autowired
 	UsersService usersService;
-	
-	@Autowired 
+
+	@Autowired
 	SecurityService securityService;
-	
+
 	@Autowired
 	HttpSession httpSession;
-	
+
 	@Autowired
-	AddOfferValidator  addOfferValidator;
-	
+	AddOfferValidator addOfferValidator;
+
 	@RequestMapping("/offer/add")
 	public String getOffer(Model model) {
-		model.addAttribute("offer",new Offer());
+		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
+		log.log(Level.INFO, "El usuario {" + user + "} ha accedido a añadir una oferta");
+		model.addAttribute("offer", new Offer());
 		return "offer/add";
 	}
-	
+
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
 	public String setMark(@Validated Offer offer, BindingResult result) {
 		addOfferValidator.validate(offer, result);
-		if (result.hasErrors()) 
-			return "/offer/add";
-		
-		offer.setDate(LocalDate.now());
 		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
+		if (result.hasErrors()) {
+			log.log(Level.WARNING, "El usuario {" + user + "} ha intentado añadir una oferta con errores");
+			return "/offer/add";
+		}
+
+		offer.setDate(LocalDate.now());
+
 		user.addOffer(offer);
 		offer.setUser(user);
-		
+
 		usersService.saveUser(user);
 		offersService.addOffer(offer);
-		
+
+		log.log(Level.INFO, "El usuario {" + user + "} ha añadido la oferta{ " + offer + "}");
 		return "redirect:/offer/list";
 	}
-	
+
 	@RequestMapping("/offer/list")
-	public String getListado(Model model, Principal principal, @RequestParam(value = "", required=false) String searchText) {
+	public String getListado(Model model, Principal principal,
+			@RequestParam(value = "", required = false) String searchText) {
 		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
 		List<Offer> offers = new ArrayList<Offer>();
 		if (searchText != null && !searchText.isEmpty()) {
 			offers = offersService.getMyOffersBySearch(user, searchText);
-		}
-		else {
+		} else {
 			offers = offersService.getMyOffers(user);
 		}
 		model.addAttribute("offerList", offers);
-		
+		log.log(Level.INFO, "El usuario {" + user + "} ha accedido a la lista de sus propias ofertas");
 		return "offer/list";
 	}
-	
+
 	@RequestMapping("/offer/buyList")
-	public String getListadoCompra(Model model, Pageable pageable, Principal principal, @RequestParam(value = "", required=false) String searchText) {
+	public String getListadoCompra(Model model, Pageable pageable, Principal principal,
+			@RequestParam(value = "", required = false) String searchText) {
 		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 		if (searchText != null && !searchText.isEmpty()) {
 			offers = offersService.getOtherOffersBySearch(pageable, user, searchText);
-		}
-		else {
+		} else {
 			offers = offersService.getOtherOffers(pageable, user);
 		}
 		model.addAttribute("offerList", offers.getContent());
 		model.addAttribute("page", offers);
+		log.log(Level.INFO, "El usuario {" + user + "} ha accedido a la lista de otras ofertas");
 		return "offer/buyList";
 	}
-	
+
 	@RequestMapping("/offer/boughtList")
-	public String getListadoCompradas(Model model, Principal principal, @RequestParam(value = "", required=false) String searchText) {
+	public String getListadoCompradas(Model model, Principal principal,
+			@RequestParam(value = "", required = false) String searchText) {
 		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
 		List<Offer> offers = new ArrayList<Offer>();
 		if (searchText != null && !searchText.isEmpty()) {
 			offers = offersService.getOffersBoughtBySearch(user, searchText);
-		}
-		else {
+		} else {
 			offers = offersService.getOffersBought(user);
 		}
 		model.addAttribute("offerList", offers);
+		log.log(Level.INFO, "El usuario {" + user + "} ha accedido a la lista de ofertas compradas");
 		return "offer/boughtList";
 	}
-	
+
 	@RequestMapping("/offer/delete/{id}")
 	public String deleteOffer(@PathVariable Long id) {
-		offersService.deleteOffer(id);
+		User user = usersService.getUserByEmail(securityService.findLoggedInEmail());
+		if (offersService.deleteOffer(id, user))
+			log.log(Level.INFO, "El usuario {" + user + "} ha borrado la oferta con id: " + id);
+		else
+			log.log(Level.WARNING,
+					"El usuario {" + user + "} ha intentado borrar la oferta con id: " + id + " pero no es suya");
 		return "redirect:/offer/list";
 	}
-	
+
 	@RequestMapping("/offer/buy/{id}")
 	public String buyOffer(Model model, Pageable pageable, @PathVariable Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
-		User user = offersService.buyOffer(id,activeUser);
-		if( user== null) {
+		User user = offersService.buyOffer(id, activeUser);
+		if (user == null) {
 			activeUser.cannotAfford();
 			httpSession.setAttribute("authUsser", activeUser);
-			offers = offersService.getOtherOffers(pageable, activeUser);	
+			offers = offersService.getOtherOffers(pageable, activeUser);
 			model.addAttribute("offerList", offers.getContent());
+			log.log(Level.WARNING, "El usuario {" + user + "} ha intentado comprar la oferta con id: " + id+" pero no tiene dinero");
 			return "redirect:/offer/buyList";
 		}
-		
+
 		httpSession.setAttribute("authUsser", user);
-		offers = offersService.getOtherOffers(pageable, user);	
+		offers = offersService.getOtherOffers(pageable, user);
 		model.addAttribute("offerList", offers.getContent());
+		log.log(Level.INFO, "El usuario {" + user + "} ha comprado la oferta con id: " + id);
 		return "redirect:/offer/buyList";
 	}
 }

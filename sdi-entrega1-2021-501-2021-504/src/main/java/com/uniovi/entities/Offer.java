@@ -29,13 +29,15 @@ public class Offer {
 	@JoinColumn(name = "buyer_id")
 	private User buyer;
 	
-	@Override
-	public String toString() {
-		return "Offer [id=" + id + ", title=" + title + ", description=" + description + ", date=" + date + ", price="
-				+ price + "]";
-	}
+	
 
 	
+
+	@Override
+	public String toString() {
+		return "Offer [id=" + id + ", title=" + title + ", date=" + date + ", description=" + description + ", user="
+				+ user + ", price=" + price + "]";
+	}
 
 	public long getId() {
 		return id;
