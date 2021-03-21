@@ -696,5 +696,6 @@ public class Tests {
 		
 		PO_HomeView.checkAddOfertaTitulo(driver, PO_Properties.getSPANISH());	
 		PO_HomeView.checkAddOfertaDescripcion(driver, PO_Properties.getSPANISH());	
+		
 	}
 }
