@@ -30,10 +30,12 @@ import com.uniovi.services.RolesService;
 import com.uniovi.services.UsersService;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.util.SeleniumUtils;
 
 //Ordenamos las pruebas por el nombre del método
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -614,5 +616,29 @@ public class Tests {
 
 		PO_HomeView.clickCambiarIdioma(driver);
 
+	}
+	
+	@Test
+	public void test28() { //Vamos a la lista de usuarios y nos lleva al login
+		driver.navigate().to(URL+"/user/list");
+		PO_View.checkElement(driver, "text", "Identificate");
+		
+	}
+	
+	@Test
+	public void test29() { //Vamos a la lista de ofertas y nos lleva al login
+		driver.navigate().to(URL+"/offer/list");
+		PO_View.checkElement(driver, "text", "Identificate");
+		
+	}
+	
+	@Test
+	public void test30() { //Un usuario normal no puede acceder a la losta de usuarios
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		driver.navigate().to(URL+"/user/list");
+		SeleniumUtils.textoPresentePagina(driver, "HTTP Status 403 – Forbidden");
+		
 	}
 }
