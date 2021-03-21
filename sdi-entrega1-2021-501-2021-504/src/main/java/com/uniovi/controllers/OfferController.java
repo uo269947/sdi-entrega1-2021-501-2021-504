@@ -70,13 +70,13 @@ public class OfferController {
 		}
 
 		offer.setDate(LocalDate.now());
-
-		user.addOffer(offer);
 		offer.setUser(user);
+		user.addOffer(offer);
+		
 
-		usersService.saveUser(user);
+		
 		offersService.addOffer(offer);
-
+		usersService.saveUser(user);
 		log.log(Level.INFO, "El usuario {" + user + "} ha añadido la oferta{ " + offer + "}");
 		return "redirect:/offer/list";
 	}
