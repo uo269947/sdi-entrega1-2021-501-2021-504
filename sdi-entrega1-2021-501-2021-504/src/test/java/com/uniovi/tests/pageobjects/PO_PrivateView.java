@@ -70,5 +70,11 @@ public class PO_PrivateView extends PO_NavView {
 		List<WebElement> list = driver.findElements(By.xpath("//*[contains(text(),'" + texto + "')]"));		
 		return list.size();
 	}
+
+	public static Double getSaldoMostrado(WebDriver driver) {
+		PO_NavView.clickProfile(driver);
+		return Double.valueOf(checkElement(driver, "id", "saldo").get(0).getText().replace("€",""));
+				
+	}
 	
 }

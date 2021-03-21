@@ -19,7 +19,7 @@
 			<td th:text="${offer.price}"></td>
 			<td>
 			
-				<a th:href="${'/offer/buy/' + offer.id}"
+				<a th:href="${'/offer/buy/' + offer.id}" class="comprar"
 				th:if="${offer.buyer == null}" th:text="#{offers.fragmentList.buy}">Comprar
 				</a>
 				
