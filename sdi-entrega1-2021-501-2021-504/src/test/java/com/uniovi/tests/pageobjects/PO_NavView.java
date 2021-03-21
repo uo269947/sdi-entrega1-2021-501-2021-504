@@ -56,6 +56,56 @@ public class PO_NavView extends PO_View {
 		elementos.get(0).click();
 	}
 	
+	public static void clickProfile(WebDriver driver, int language) {
+		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
+		// registro.
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text",  p.getString("nav.profile", language), getTimeout());
+		// Tiene que haber un sólo elemento.
+		assertTrue(elementos.size() == 1);
+		// Ahora lo clickamos
+		elementos.get(0).click();
+	}
+	
+	public static void clickMisOfertas(WebDriver driver, int language) {
+		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
+		// registro.
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text",  p.getString("nav.offers.mine", language), getTimeout());
+		// Tiene que haber un sólo elemento.
+		assertTrue(elementos.size() == 1);
+		// Ahora lo clickamos
+		elementos.get(0).click();
+	}
+	
+	public static void clickAddOferta(WebDriver driver, int language) {
+		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
+		// registro.
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text",  p.getString("nav.offers.mine.add", language), getTimeout());
+		// Tiene que haber un sólo elemento.
+		assertTrue(elementos.size() == 1);
+		// Ahora lo clickamos
+		elementos.get(0).click();
+	}
+	
+	public static void clickUserList(WebDriver driver, int language) {
+		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
+		// registro.
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text",  p.getString("nav.users.list", language), getTimeout());
+		// Tiene que haber un sólo elemento.
+		assertTrue(elementos.size() == 1);
+		// Ahora lo clickamos
+		elementos.get(0).click();
+	}
+	
+	public static void clickDisconnect(WebDriver driver, int language) {
+		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
+		// registro.
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text",  p.getString("nav.disconnect", language), getTimeout());
+		// Tiene que haber un sólo elemento.
+		assertTrue(elementos.size() == 1);
+		// Ahora lo clickamos
+		elementos.get(0).click();
+	}
+	
 	public static void clickMisOfertas(WebDriver driver) {
 		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
 		// registro.
@@ -77,13 +127,27 @@ public class PO_NavView extends PO_View {
 		elementos.get(0).click();
 	}
 	
-	public static void clickCambiarIdioma(WebDriver driver) {
-		// CLickamos en la opción de registro y esperamos a que se cargue el enlace dec
-		// registro.
-		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Buscar Ofertas", getTimeout());
-		// Tiene que haber un sólo elemento.
+	public static void clickIdioma(WebDriver driver, int language) {
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text",  p.getString("language.change", language), getTimeout());
+		// Tiene que haber dos elementos.
 		assertTrue(elementos.size() == 1);
-		// Ahora lo clickamos
+		// Ahora elegimos idioma 0 español 1 ingles
+		elementos.get(0).click();
+	}
+	
+	public static void clickCambiaIdiomaEsEn(WebDriver driver) {
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Ingles", getTimeout());
+		// Tiene que haber dos elementos.
+		assertTrue(elementos.size() == 1);
+		// Ahora elegimos idioma 0 español 1 ingles
+		elementos.get(0).click();
+	}
+	
+	public static void clickCambiaIdiomaEnEs(WebDriver driver) {
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Spanish", getTimeout());
+		// Tiene que haber dos elementos.
+		assertTrue(elementos.size() == 1);
+		// Ahora elegimos idioma 0 español 1 ingles
 		elementos.get(0).click();
 	}
 
@@ -104,5 +168,40 @@ public class PO_NavView extends PO_View {
 		// CLickamos la opción Inglés partiendo de la opción Español
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", textLanguage, getTimeout());
 		elementos.get(0).click();
+	}
+	
+	static public void checkWelcome(WebDriver driver, int language) {
+		// Esperamos a que se cargue el saludo de bienvenida en Español
+		SeleniumUtils.EsperaCargaPagina(driver, "text", p.getString("welcome.message", language), getTimeout());
+	}
+	
+	static public void checkProfile(WebDriver driver, int language) {
+		// Esperamos a que se cargue el saludo de bienvenida en Español
+		SeleniumUtils.EsperaCargaPagina(driver, "text", p.getString("nav.profile", language), getTimeout());
+	}
+	
+	static public void checkDisconnect(WebDriver driver, int language) {
+		// Esperamos a que se cargue el saludo de bienvenida en Español
+		SeleniumUtils.EsperaCargaPagina(driver, "text", p.getString("nav.disconnect", language), getTimeout());
+	}
+	
+	static public void checkUserList(WebDriver driver, int language) {
+		// Esperamos a que se cargue el saludo de bienvenida en Español
+		SeleniumUtils.EsperaCargaPagina(driver, "text", p.getString("nav.users.list", language), getTimeout());
+	}
+	
+	static public void checkUserText(WebDriver driver, int language) {
+		// Esperamos a que se cargue el saludo de bienvenida en Español
+		SeleniumUtils.EsperaCargaPagina(driver, "text", p.getString("users.title.long", language), getTimeout());
+	}
+	
+	static public void checkAddOfertaTitulo(WebDriver driver, int language) {
+		// Esperamos a que se cargue el saludo de bienvenida en Español
+		SeleniumUtils.EsperaCargaPagina(driver, "text", p.getString("offers.add", language), getTimeout());
+	}
+	
+	static public void checkAddOfertaDescripcion(WebDriver driver, int language) {
+		// Esperamos a que se cargue el saludo de bienvenida en Español
+		SeleniumUtils.EsperaCargaPagina(driver, "text", p.getString("offers.add.detail", language), getTimeout());
 	}
 }

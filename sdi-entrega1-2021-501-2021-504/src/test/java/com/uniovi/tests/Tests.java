@@ -34,6 +34,7 @@ import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.util.SeleniumUtils;
 
 //Ordenamos las pruebas por el nombre del método
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -53,13 +54,12 @@ public class Tests {
 
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
-	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\Eric\\Desktop\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+//	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+//	static String Geckdriver024 = "C:\\Users\\Eric\\Desktop\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 
-	// static String PathFirefox65 = "C:\\Program Files\\Mozilla
-	// Firefox\\firefox.exe";
-	// static String Geckdriver024 =
-	// "C:\\Users\\aleex\\Desktop\\UniTercero2\\SDI\\Material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	 static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+	 static String Geckdriver024 =
+	 "C:\\Users\\aleex\\Desktop\\UniTercero2\\SDI\\Material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 
 	// En MACOSX (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas):
@@ -513,7 +513,7 @@ public class Tests {
 	}
 
 	@Test
-	public void test22() { // Busqueda vacía mismos elementos
+	public void test22() { // Busqueda elemento no existe
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "user", "user");
 
@@ -528,7 +528,7 @@ public class Tests {
 	}
 
 	@Test
-	public void test26() { // Busqueda vacía mismos elementos
+	public void test26() { // Comprobar ofertas compradas
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "user", "user");
 
@@ -544,11 +544,93 @@ public class Tests {
 	}
 
 	@Test
-	public void test27() { // Busqueda vacía mismos elementos
+	public void test27() { // Test Internacionalizacion
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "user", "user");
+		
+		//check Welcome
+		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
 
-		PO_HomeView.clickCambiarIdioma(driver);
+		PO_HomeView.clickIdioma(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickCambiaIdiomaEsEn(driver);
+		
+		PO_HomeView.checkWelcome(driver, PO_Properties.getENGLISH());
+		
+		//check profile
+		PO_HomeView.clickIdioma(driver, PO_Properties.getENGLISH());
+		PO_HomeView.clickCambiaIdiomaEnEs(driver);
+		
+		PO_HomeView.checkProfile(driver, PO_Properties.getSPANISH());
+		
+		PO_HomeView.clickIdioma(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickCambiaIdiomaEsEn(driver);
+		
+		PO_HomeView.checkProfile(driver, PO_Properties.getENGLISH());	
+		PO_HomeView.clickProfile(driver, PO_Properties.getENGLISH());
+		
+		PO_HomeView.checkDisconnect(driver, PO_Properties.getENGLISH());	
+		
+		PO_HomeView.clickIdioma(driver, PO_Properties.getENGLISH());
+		PO_HomeView.clickCambiaIdiomaEnEs(driver);
 
+		PO_HomeView.clickProfile(driver, PO_Properties.getSPANISH());
+		
+		PO_HomeView.checkDisconnect(driver, PO_Properties.getSPANISH());	
+		
+		PO_HomeView.clickDisconnect(driver, PO_Properties.getSPANISH());
+		
+		//check User List
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.es", "admin");
+		
+		PO_HomeView.checkUserList(driver, PO_Properties.getSPANISH());	
+		
+		PO_HomeView.clickIdioma(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickCambiaIdiomaEsEn(driver);
+		
+		PO_HomeView.checkUserList(driver, PO_Properties.getENGLISH());
+		PO_HomeView.clickIdioma(driver, PO_Properties.getENGLISH());
+		PO_HomeView.clickCambiaIdiomaEnEs(driver);
+		
+		PO_HomeView.clickUserList(driver, PO_Properties.getSPANISH());
+		
+		PO_HomeView.checkUserText(driver, PO_Properties.getSPANISH());	
+		
+		PO_HomeView.clickIdioma(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickCambiaIdiomaEsEn(driver);
+		
+		PO_HomeView.checkUserText(driver, PO_Properties.getENGLISH());	
+		
+		PO_HomeView.clickIdioma(driver, PO_Properties.getENGLISH());
+		PO_HomeView.clickCambiaIdiomaEnEs(driver);
+		PO_HomeView.checkUserText(driver, PO_Properties.getSPANISH());
+		
+		PO_HomeView.clickProfile(driver, PO_Properties.getSPANISH());
+		
+		PO_HomeView.checkDisconnect(driver, PO_Properties.getSPANISH());	
+		
+		PO_HomeView.clickDisconnect(driver, PO_Properties.getSPANISH());
+		
+		//check add offer
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user", "user");
+		
+		PO_HomeView.clickMisOfertas(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickAddOferta(driver, PO_Properties.getSPANISH());
+		
+		PO_HomeView.checkAddOfertaTitulo(driver, PO_Properties.getSPANISH());	
+		PO_HomeView.checkAddOfertaDescripcion(driver, PO_Properties.getSPANISH());	
+		
+		PO_HomeView.clickIdioma(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickCambiaIdiomaEsEn(driver);
+		
+		PO_HomeView.checkAddOfertaTitulo(driver, PO_Properties.getENGLISH());	
+		PO_HomeView.checkAddOfertaDescripcion(driver, PO_Properties.getENGLISH());	
+		
+		PO_HomeView.clickIdioma(driver, PO_Properties.getENGLISH());
+		PO_HomeView.clickCambiaIdiomaEnEs(driver);
+		
+		PO_HomeView.checkAddOfertaTitulo(driver, PO_Properties.getSPANISH());	
+		PO_HomeView.checkAddOfertaDescripcion(driver, PO_Properties.getSPANISH());	
 	}
 }
